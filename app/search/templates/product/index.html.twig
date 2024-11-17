@@ -1,0 +1,57 @@
+<h1>Product Search</h1>
+
+<form method="get" action="{{ path('search') }}">
+    <!-- Search Inputs for each field -->
+    <input type="text" name="name" value="{{ app.request.query.get('name') ?? '' }}" placeholder="Name">
+    <input type="text" name="category" value="{{ app.request.query.get('category') ?? '' }}" placeholder="Category">
+    <input type="text" name="price" value="{{ app.request.query.get('price') ?? '' }}" placeholder="Price">
+    <input type="text" name="id" value="{{ app.request.query.get('id') ?? '' }}" placeholder="ID">
+    
+    <!-- Search Buttons -->
+    <button type="submit">Search</button>
+</form>
+
+<!-- Export Button -->
+<form method="get" action="{{ path('export') }}">
+    <input type="hidden" name="name" value="{{ app.request.query.get('name') }}">
+    <input type="hidden" name="category" value="{{ app.request.query.get('category') }}">
+    <input type="hidden" name="price" value="{{ app.request.query.get('price') }}">
+    <input type="hidden" name="id" value="{{ app.request.query.get('id') }}">
+    <button type="submit">Export</button>
+</form>
+
+{% if products %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.createdAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+<!-- Pagination Links -->
+<div>
+    {% if page > 1 %}
+        <a href="{{ path('search', {'name': app.request.query.get('name'), 'category': app.request.query.get('category'), 'price': app.request.query.get('price'), 'id': app.request.query.get('id'), 'sort': sort, 'page': page - 1, 'perPage': perPage}) }}">Previous</a>
+    {% endif %}
+    <span>Page {{ page }} of {{ totalPages }}</span>
+    {% if page < totalPages %}
+        <a href="{{ path('search', {'name': app.request.query.get('name'), 'category': app.request.query.get('category'), 'price': app.request.query.get('price'), 'id': app.request.query.get('id'), 'sort': sort, 'page': page + 1, 'perPage': perPage}) }}">Next</a>
+    {% endif %}
+</div>
