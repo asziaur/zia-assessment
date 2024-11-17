@@ -19,7 +19,7 @@
     - cd search
     - php bin/console doctrine:migrations:migrate
     - php bin/console app:insert-dummy-products 
-        output - 15 dummy products have been inserted successfully. 
+        - output - 15 dummy products have been inserted successfully.
 
 6. Go browser and open url
     - http://localhost:8081/search
